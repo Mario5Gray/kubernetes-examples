@@ -13,10 +13,10 @@
 # limitations under the License.
 
 # build the cassandra image.
-VERSION=v14
+VERSION=v151
 PROJECT_ID?=google_samples
 PROJECT=gcr.io/${PROJECT_ID}
-CASSANDRA_VERSION=3.11.2
+CASSANDRA_VERSION=3.11.15
 
 all: kubernetes-cassandra.jar build
 

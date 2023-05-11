@@ -24,11 +24,25 @@ echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 apt-get update && apt-get dist-upgrade -y
 
 clean-install \
-    openjdk-8-jre-headless \
-    libjemalloc1 \
+    libjemalloc2 \
     localepurge \
     dumb-init \
+    gnupg \
+    ca-certificates \
     wget
+
+echo "Adding Repository for adoptopenjdk-8"
+set -x
+
+echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main" >> /etc/apt/sources.list
+
+wget --no-check-certificate -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
+
+apt-get update -y
+
+clean-install adoptopenjdk-8-hotspot
+
+echo "adoptopenjdk installed"
 
 CASSANDRA_PATH="cassandra/${CASSANDRA_VERSION}/apache-cassandra-${CASSANDRA_VERSION}-bin.tar.gz"
 CASSANDRA_DOWNLOAD="http://www.apache.org/dyn/closer.cgi?path=/${CASSANDRA_PATH}&as_json=1"
@@ -86,31 +100,31 @@ rm -rf \
     /usr/share/doc-base/ \
     /usr/share/man/ \
     /tmp/* \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/plugin \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/javaws \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/jjs \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/orbd \
-    /usr/lib/jvm/java-8-openjdk-amd64/bin/pack200 \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/policytool \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/rmid \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/rmiregistry \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/servertool \
-    /usr/lib/jvm/java-8-openjdk-amd64/bin/tnameserv \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/unpack200 \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/javaws.jar \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/deploy* \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/desktop \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/*javafx* \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/*jfx* \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/libdecora_sse.so \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/libprism_*.so \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/libfxplugins.so \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/libglass.so \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/libgstreamer-lite.so \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/libjavafx*.so \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/libjfx*.so \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/jfxrt.jar \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/ext/nashorn.jar \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/oblique-fonts \
-    /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/plugin.jar \
-    /usr/lib/jvm/java-8-openjdk-amd64/man
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/plugin \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/bin/javaws \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/bin/jjs \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/bin/orbd \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/pack200 \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/bin/policytool \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/bin/rmid \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/bin/rmiregistry \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/bin/servertool \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/tnameserv \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/bin/unpack200 \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/javaws.jar \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/deploy* \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/desktop \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/*javafx* \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/*jfx* \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/amd64/libdecora_sse.so \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/amd64/libprism_*.so \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/amd64/libfxplugins.so \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/amd64/libglass.so \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/amd64/libgstreamer-lite.so \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/amd64/libjavafx*.so \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/amd64/libjfx*.so \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/ext/jfxrt.jar \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/ext/nashorn.jar \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/oblique-fonts \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/plugin.jar \
+    /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/man

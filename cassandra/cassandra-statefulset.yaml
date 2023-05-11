@@ -18,7 +18,7 @@ spec:
       terminationGracePeriodSeconds: 1800
       containers:
       - name: cassandra
-        image: gcr.io/google-samples/cassandra:v14
+        image: localhost:5001/cassandra:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
@@ -87,9 +87,11 @@ spec:
   - metadata:
       name: cassandra-data
       annotations:
-        volume.beta.kubernetes.io/storage-class: fast
+        volume.beta.kubernetes.io/storage-class: local-path
+        volumeType: local
     spec:
       accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path      
       resources:
         requests:
           storage: 1Gi
@@ -97,7 +99,6 @@ spec:
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: fast
-provisioner: k8s.io/minikube-hostpath
-parameters:
-  type: pd-ssd
+  name: local-path
+provisioner: rancher.io/local-path
+volumeBindingMode: WaitForFirstConsumer

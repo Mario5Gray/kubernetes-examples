@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM registry.k8s.io/debian-base-amd64:0.3
+FROM registry.k8s.io/debian-base-amd64:v2.0.0
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -33,8 +33,8 @@ ENV CASSANDRA_HOME=/usr/local/apache-cassandra-${CASSANDRA_VERSION} \
     CASSANDRA_CONF=/etc/cassandra \
     CASSANDRA_DATA=/cassandra_data \
     CASSANDRA_LOGS=/var/log/cassandra \
-    JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    PATH=${PATH}:/usr/lib/jvm/java-8-openjdk-amd64/bin:/usr/local/apache-cassandra-${CASSANDRA_VERSION}/bin
+    JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64 \
+    PATH=${PATH}:/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin:/usr/local/apache-cassandra-${CASSANDRA_VERSION}/bin
 
 ADD files /
 

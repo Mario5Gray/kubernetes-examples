@@ -15,6 +15,7 @@ import (
 	"github.com/ericchiang/k8s"
 	corev1 "github.com/ericchiang/k8s/apis/core/v1"
 )
+// v1 "k8s.io/client-go/kubernetes/typed/core/v1"
 
 type endpoints struct {
 	IPs []string `json:"ips"`
