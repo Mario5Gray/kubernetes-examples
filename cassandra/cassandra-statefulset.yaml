@@ -18,7 +18,7 @@ spec:
       terminationGracePeriodSeconds: 1800
       containers:
       - name: cassandra
-        image: gcr.io/google_samples/cassandra:v14 
+        image: gcr.io/google_samples/cassandra:v13
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
@@ -60,8 +60,6 @@ spec:
             value: "DC1-K8Demo"
           - name: CASSANDRA_RACK
             value: "Rack1-K8Demo"
-          - name: CASSANDRA_SEED_PROVIDER
-            value: io.k8s.cassandra.KubernetesSeedProvider
           - name: POD_IP
             valueFrom:
               fieldRef:
