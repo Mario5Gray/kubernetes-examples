@@ -1,0 +1,22 @@
+FROM golang:1.17-buster
+
+WORKDIR /app
+
+# Copy go mod and sum files 
+COPY ./go.mod ./go.sum ./
+
+COPY ./go ./go
+
+RUN ls -lta 
+RUN pwd
+
+# Download all dependencies. Dependencies will be cached if the go.mod and the go.sum files are not changed 
+RUN cd ./go && go mod download
+
+# Build the Go app for Linux 
+run GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo \
+-ldflags "-s -w" \
+-o image/files/cassandra-seed.so -buildmode=c-shared go/main.go
+
+# RUN cd ./go && GOOS=linux GOARCH=amd64 go build -o outputfile
+
